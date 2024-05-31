@@ -1,4 +1,5 @@
-import { useState, Fragment } from 'react'
+// import { useState, Fragment } from 'react'
+import { Fragment } from 'react'
 // import reactLogo from './assets/react.svg'
 // import viteLogo from '/vite.svg'
 import './App.css'
@@ -7,7 +8,7 @@ import { Unity, useUnityContext } from "react-unity-webgl";
 
 
 function App() {
-  const [count, setCount] = useState(0)
+  // const [count, setCount] = useState(0)
 
   const { unityProvider, loadingProgression, isLoaded, sendMessage } = useUnityContext({
     loaderUrl: "public/UnityWeb3-WebGL.loader.js",
@@ -22,7 +23,15 @@ function App() {
 
   return (
     <Fragment>
-      <Unity unityProvider={unityProvider} style={{ width: 800, height: 600 }}/>
+      <p>Loading Application... {Math.round(loadingProgression * 100)}%</p>
+      <Unity 
+        unityProvider={unityProvider} 
+        style={{ 
+          width: 800, 
+          height: 600,
+          visibility: isLoaded ? "visible" : "hidden"
+        }}
+      />
       <button onClick={handleOnZkLogin}>Handle ZK Login</button>
     </Fragment>
   )
