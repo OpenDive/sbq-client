@@ -29,16 +29,16 @@ function App() {
   const [maxEpoch, setMaxEpoch] = useState(0);
   const [randomness, setRandomness] = useState("");
 
-  const { unityProvider, loadingProgression, isLoaded, sendMessage } = useUnityContext({
-    loaderUrl: "public/UnityWeb3-WebGL.loader.js",
-    dataUrl: "public/UnityWeb3-WebGL.data",
-    frameworkUrl: "public/UnityWeb3-WebGL.framework.js",
-    codeUrl: "public/UnityWeb3-WebGL.wasm",
-  });
+  // const { unityProvider, loadingProgression, isLoaded, sendMessage } = useUnityContext({
+  //   loaderUrl: "public/UnityWeb3-WebGL.loader.js",
+  //   dataUrl: "public/UnityWeb3-WebGL.data",
+  //   frameworkUrl: "public/UnityWeb3-WebGL.framework.js",
+  //   codeUrl: "public/UnityWeb3-WebGL.wasm",
+  // });
 
-  function handleOnZkLogin() {
-    sendMessage("Web3Controller", "OnZkLogin", "true");
-  }
+  // function handleOnZkLogin() {
+  //   sendMessage("Web3Controller", "OnZkLogin", "true");
+  // }
 
   const suiClient = new SuiClient({ url: FULLNODE_URL });
 
@@ -102,7 +102,7 @@ function App() {
     <Fragment>
       <button onClick={loginZK}>SIGN IN WITH GOOGLE</button>
 
-      <p>Loading Application... {Math.round(loadingProgression * 100)}%</p>
+      {/* <p>Loading Application... {Math.round(loadingProgression * 100)}%</p>
       <Unity 
         unityProvider={unityProvider} 
         style={{ 
@@ -111,7 +111,7 @@ function App() {
           visibility: isLoaded ? "visible" : "hidden"
         }}
       />
-      <button onClick={handleOnZkLogin}>Handle ZK Login</button>
+      <button onClick={handleOnZkLogin}>Handle ZK Login</button> */}
     </Fragment>
   )
 
