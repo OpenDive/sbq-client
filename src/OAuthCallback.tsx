@@ -12,16 +12,19 @@ function OAuthCallback() {
   const location = useLocation();
 
   const { unityProvider, loadingProgression, isLoaded, sendMessage } = useUnityContext({
-    loaderUrl: "../public/UnityWeb3-WebGL.loader.js",
-    dataUrl: "../public/UnityWeb3-WebGL.data",
-    frameworkUrl: "../public/UnityWeb3-WebGL.framework.js",
-    codeUrl: "../public/UnityWeb3-WebGL.wasm",
+    loaderUrl: "../public/SuiBattleQuest.loader.js",
+    dataUrl: "../public/SuiBattleQuest.data",
+    frameworkUrl: "../public/SuiBattleQuest.framework.js",
+    codeUrl: "../public/SuiBattleQuest.wasm",
   });
 
   function handleOnZkLogin() {
     sendMessage("Web3Controller", "OnZkLogin", "true");
   }
 
+  function handleSuiAddress(address: string) {
+    sendMessage("Web3Controller", "OnSuiAddress", address);
+  }
 
   useEffect(() => {
     const hash = location.hash;
@@ -37,6 +40,7 @@ function OAuthCallback() {
         iss: jwt.iss!
       });
       console.log(`LOGIN ADDR - ${login_address}`);
+      handleSuiAddress(login_address);
     }
   }, [location, navigate]);
 
