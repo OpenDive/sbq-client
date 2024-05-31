@@ -9,12 +9,16 @@ import { Unity, useUnityContext } from "react-unity-webgl";
 function App() {
   const [count, setCount] = useState(0)
 
-  const { unityProvider, loadingProgression, isLoaded } = useUnityContext({
-    loaderUrl: "build/myunityapp.loader.js",
-    dataUrl: "build/myunityapp.data",
-    frameworkUrl: "build/myunityapp.framework.js",
-    codeUrl: "build/myunityapp.wasm",
+  const { unityProvider, loadingProgression, isLoaded, sendMessage } = useUnityContext({
+    loaderUrl: "public/UnityWeb3-WebGL.loader.js",
+    dataUrl: "public/UnityWeb3-WebGL.data",
+    frameworkUrl: "public/UnityWeb3-WebGL.framework.js",
+    codeUrl: "public/UnityWeb3-WebGL.wasm",
   });
+
+  function handleOnZkLogin() {
+    sendMessage("Web3Controller", "OnZkLogin", "true");
+  }
 
   return (
     <>
@@ -39,6 +43,7 @@ function App() {
         Click on the Vite and React logos to learn more
       </p>
       <Unity unityProvider={unityProvider} />
+      <button onClick={handleOnZkLogin}>Handle ZK Login</button>
     </>
   )
 }
