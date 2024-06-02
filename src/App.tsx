@@ -20,10 +20,6 @@ import {
 } from "@mysten/zklogin";
 import { SuiClient } from "@mysten/sui.js/client";
 
-import { Unity, useUnityContext } from "react-unity-webgl";
-import { PublicKey } from '@mysten/sui/cryptography';
-
-
 function App() {
   // const [count, setCount] = useState(0)
   const [nonce, setNonce] = useState("");
