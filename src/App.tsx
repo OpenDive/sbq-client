@@ -3,7 +3,9 @@ import { useState, useEffect, Fragment } from 'react'
 // import viteLogo from '/vite.svg'
 import './App.css'
 
-import { Ed25519Keypair } from "@mysten/sui.js/keypairs/ed25519";
+// import { Ed25519Keypair } from "@mysten/sui.js/keypairs/ed25519";
+import { Ed25519Keypair } from '@mysten/sui/keypairs/ed25519';
+
 import {
   CLIENT_ID,
   FULLNODE_URL,
@@ -70,7 +72,7 @@ function App() {
     const ephemeralKeyPair = Ed25519Keypair.generate();
     window.sessionStorage.setItem(
       KEY_PAIR_SESSION_STORAGE_KEY,
-      ephemeralKeyPair.export().privateKey
+      ephemeralKeyPair.getSecretKey()
     );
     setEphemeralKeyPair(ephemeralKeyPair);
   }, []);

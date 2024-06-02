@@ -36,7 +36,8 @@ function OAuthCallback() {
         userSalt: "",
         claimName: "sub",
         claimValue: jwt.sub!,
-        aud: jwt.aud,
+        // aud: jwt.aud
+        aud: jwt.aud as string,
         iss: jwt.iss!
       });
       console.log(`LOGIN ADDR - ${login_address}`);
