@@ -5,6 +5,7 @@ import {
     computeZkLoginAddress
   } from "@mysten/zklogin";
 import { Unity, useUnityContext } from "react-unity-webgl";
+import { USER_SUI_ADDRESS_STORAGE_KEY } from './constant';
 
 
 function OAuthCallback() {
@@ -17,10 +18,6 @@ function OAuthCallback() {
     frameworkUrl: "../public/SuiBattleQuest.framework.js",
     codeUrl: "../public/SuiBattleQuest.wasm",
   });
-
-  function handleOnZkLogin() {
-    sendMessage("Web3Controller", "OnZkLogin", "true");
-  }
 
   function handleSuiAddress(address: string) {
     sendMessage("Web3Controller", "OnSuiAddress", address);
@@ -36,18 +33,26 @@ function OAuthCallback() {
         userSalt: "",
         claimName: "sub",
         claimValue: jwt.sub!,
-        // aud: jwt.aud
         aud: jwt.aud as string,
         iss: jwt.iss!
       });
-      console.log(`LOGIN ADDR - ${login_address}`);
-      handleSuiAddress(login_address);
+      window.localStorage.setItem(
+        USER_SUI_ADDRESS_STORAGE_KEY,
+        login_address
+      );
+      console.log(`DEBUG: SUI ADDRESS BEFORE LOADED - ${login_address}`);
     }
   }, [location, navigate]);
 
+  useEffect(() => {
+    const login_address = window.localStorage.getItem(USER_SUI_ADDRESS_STORAGE_KEY)!;
+    console.log(`DEBUG: SUI ADDRESS ON LOADED - ${login_address}`);
+    handleSuiAddress(login_address);
+  }, [isLoaded]);
+
   return (
     <Fragment>
-        <p>Loading Application... {Math.round(loadingProgression * 100)}%</p>
+        <p>Loading Game... {Math.round(loadingProgression * 100)}%</p>
         <Unity 
         unityProvider={unityProvider} 
         style={{ 
@@ -56,7 +61,6 @@ function OAuthCallback() {
             visibility: isLoaded ? "visible" : "hidden"
         }}
         />
-        <button onClick={handleOnZkLogin}>Handle ZK Login</button>
   </Fragment>
   );
 }

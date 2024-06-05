@@ -99,14 +99,22 @@ app.get("/api/getSuiFrens", async (req, res) => {
     await new Promise(r => setTimeout(r, (250 * (suiFrensIdChunk.length))));
     frens = frens.flat();
 
-    res.json({ 
-        frens: frens,
-        // size: frens.length
+    var returnFrensObjects = []
+
+    frens.forEach(fren => {
+        const display = fren.data.display.data
+        const fields = fren.data.content.fields
+        returnFrensObjects.push({
+            id: fren.data.objectId,
+            image: display.image_url,
+            attributes: fields.attributes,
+            genes: fields.genes
+        });
     });
-});
-  
-app.get("/api/hello", (req, res) => {
-    res.json({ hello: "world" });
+
+    res.json({ 
+        frens: returnFrensObjects,
+    });
 });
 
 export const handler = app;

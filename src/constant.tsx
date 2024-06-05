@@ -17,6 +17,8 @@ export const RANDOMNESS_SESSION_STORAGE_KEY = "demo_randomness_key_pair";
 
 export const MAX_EPOCH_LOCAL_STORAGE_KEY = "demo_max_epoch_key_pair";
 
+export const USER_SUI_ADDRESS_STORAGE_KEY = "game_user_sui_address_key_pair";
+
 
 export const STEPS_LABELS_TRANS_KEY = ['16e758e8', '9b8b5398', '8adf5b45', '8b72e7cd', '66f6b490', 'af802c7a', 'c649dd70',]
 
