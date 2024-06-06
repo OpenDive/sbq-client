@@ -25,7 +25,6 @@ const app = express();
 // localhost:8280/api/?address=0x6045d15865d74a53dc42e481280190aec7d06463f40088acf49ea4585acc29e2
 app.get("/api/getSuiFrens", async (req, res) => {
     const address = req.query.address
-    // res.json({ address: address });
 
     const client = new SuiClient({
         url: getFullnodeUrl('mainnet'),
@@ -37,67 +36,47 @@ app.get("/api/getSuiFrens", async (req, res) => {
     });
 
     // You can perform actions, like querying the owned kiosks for an address.
-    const { _, kioskIds } = await kioskClient.getOwnedKiosks({ address: addr });
+    const { _, kioskIds } = await kioskClient.getOwnedKiosks({ address: address });
 
-    const suiFrensKioskIds = kioskIds.filter(async (id) => {
-        const res = await kioskClient.getKiosk({
-            id,
-            options: {
-                withKioskFields: true, // this flag also returns the `kiosk` object in the response, which includes the base setup
-                withListingPrices: true, // This flag enables / disables the fetching of the listing prices.
-                objectOptions: {
-                    showContent: true,
-                    showDisplay: true
-                }
+    const suiFrensKioskIds = [];
+    kioskIds.forEach(async (id) => {
+        const res = await kioskClient.getKiosk({ id });
+        res.items.forEach((itm) => {
+            if (itm.type.includes(suiFrensPackage)) {
+                suiFrensKioskIds.push(itm.objectId);
             }
         });
-        await new Promise(r => setTimeout(r, 250));
-        return res.items.some((item) => item.type.includes(suiFrensPackage));
     });
-
-    await new Promise(r => setTimeout(r, (250 * (kioskIds.length + 10))));
-
-    var suiFrensIds = []
-
-    suiFrensKioskIds.forEach(async (id) => {
-        const res = await kioskClient.getKiosk({
-            id,
-            options: {
-                withKioskFields: true, // this flag also returns the `kiosk` object in the response, which includes the base setup
-                withListingPrices: true, // This flag enables / disables the fetching of the listing prices.
-                objectOptions: {
-                    showContent: true,
-                    showDisplay: true
-                }
-            }
-        });
-        await new Promise(r => setTimeout(r, 250));
-        suiFrensIds.push(res.itemIds);
-    });
-
-    await new Promise(r => setTimeout(r, (250 * (kioskIds.length + 10))));
-
-    suiFrensIds = suiFrensIds.flat();
-    var suiFrensIdChunk = chunkArray(suiFrensIds, 50);
-    suiFrensIdChunk = suiFrensIdChunk.map(arr => {
-        return arr.filter(i => i !== undefined);
-    });
+    await new Promise(r => setTimeout(r, (250 * (kioskIds.length * 2))));
 
     var frens = [];
-    suiFrensIdChunk.forEach(async (ids) => {
-        const res = await client.multiGetObjects({
-            ids,
+    if (suiFrensKioskIds.length <= 50) {
+        frens = await client.multiGetObjects({
+            ids: suiFrensKioskIds,
             options: {
                 showContent: true,
                 showDisplay: true
             }
         });
         await new Promise(r => setTimeout(r, 250));
-        frens.push(res);
-    });
-
-    await new Promise(r => setTimeout(r, (250 * (suiFrensIdChunk.length))));
-    frens = frens.flat();
+    } else {
+        var suiFrensIdChunk = chunkArray(suiFrensKioskIds, 50);
+        suiFrensIdChunk = suiFrensIdChunk.map(arr => {
+            return arr.filter(i => i !== undefined);
+        });
+        suiFrensIdChunk.forEach(async (ids) => {
+            const res = await client.multiGetObjects({
+                ids: ids,
+                options: {
+                    showContent: true,
+                    showDisplay: true
+                }
+            });
+            frens.push(res);
+        });
+        await new Promise(r => setTimeout(r, (250 * suiFrensIdChunk.length)));
+        frens = frens.flat();
+    }
 
     var returnFrensObjects = []
 
