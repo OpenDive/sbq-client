@@ -21,22 +21,10 @@ import {
 import { SuiClient } from "@mysten/sui.js/client";
 
 function App() {
-  // const [count, setCount] = useState(0)
   const [nonce, setNonce] = useState("");
   const [ephemeralKeyPair, setEphemeralKeyPair] = useState<Ed25519Keypair>();
   const [maxEpoch, setMaxEpoch] = useState(0);
   const [randomness, setRandomness] = useState("");
-
-  // const { unityProvider, loadingProgression, isLoaded, sendMessage } = useUnityContext({
-  //   loaderUrl: "public/UnityWeb3-WebGL.loader.js",
-  //   dataUrl: "public/UnityWeb3-WebGL.data",
-  //   frameworkUrl: "public/UnityWeb3-WebGL.framework.js",
-  //   codeUrl: "public/UnityWeb3-WebGL.wasm",
-  // });
-
-  // function handleOnZkLogin() {
-  //   sendMessage("Web3Controller", "OnZkLogin", "true");
-  // }
 
   const suiClient = new SuiClient({ url: FULLNODE_URL });
 
@@ -99,46 +87,8 @@ function App() {
   return (
     <Fragment>
       <button onClick={loginZK}>SIGN IN WITH GOOGLE</button>
-
-      {/* <p>Loading Application... {Math.round(loadingProgression * 100)}%</p>
-      <Unity 
-        unityProvider={unityProvider} 
-        style={{ 
-          width: 800, 
-          height: 600,
-          visibility: isLoaded ? "visible" : "hidden"
-        }}
-      />
-      <button onClick={handleOnZkLogin}>Handle ZK Login</button> */}
     </Fragment>
   )
-
-  // return (
-  //   <>
-  //     <div>
-  //       <a href="https://vitejs.dev" target="_blank">
-  //         <img src={viteLogo} className="logo" alt="Vite logo" />
-  //       </a>
-  //       <a href="https://react.dev" target="_blank">
-  //         <img src={reactLogo} className="logo react" alt="React logo" />
-  //       </a>
-  //     </div>
-  //     <h1>Vite + React</h1>
-  //     <div className="card">
-  //       <button onClick={() => setCount((count) => count + 1)}>
-  //         count is {count}
-  //       </button>
-  //       <p>
-  //         Edit <code>src/App.tsx</code> and save to test HMR
-  //       </p>
-  //     </div>
-  //     <p className="read-the-docs">
-  //       Click on the Vite and React logos to learn more
-  //     </p>
-  //     <Unity unityProvider={unityProvider} />
-  //     <button onClick={handleOnZkLogin}>Handle ZK Login</button>
-  //   </>
-//   )
 }
 
 export default App

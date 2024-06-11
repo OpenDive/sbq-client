@@ -1179,29 +1179,29 @@ var tempDouble;
 var tempI64;
 
 var ASM_CONSTS = {
- 4435752: function() {
+ 4435816: function() {
   return Module.webglContextAttributes.premultipliedAlpha;
  },
- 4435813: function() {
+ 4435877: function() {
   return Module.webglContextAttributes.preserveDrawingBuffer;
  },
- 4435877: function() {
+ 4435941: function() {
   return Module.webglContextAttributes.powerPreference;
  },
- 4435935: function() {
+ 4435999: function() {
   Module["emscripten_get_now_backup"] = performance.now;
  },
- 4435990: function($0) {
+ 4436054: function($0) {
   performance.now = function() {
    return $0;
   };
  },
- 4436038: function($0) {
+ 4436102: function($0) {
   performance.now = function() {
    return $0;
   };
  },
- 4436086: function() {
+ 4436150: function() {
   performance.now = Module["emscripten_get_now_backup"];
  }
 };
@@ -17835,6 +17835,10 @@ if (!Object.getOwnPropertyDescriptor(Module, "JS_ScreenOrientation_appliedLockTy
 
 if (!Object.getOwnPropertyDescriptor(Module, "JS_ScreenOrientation_timeoutID")) Module["JS_ScreenOrientation_timeoutID"] = function() {
  abort("'JS_ScreenOrientation_timeoutID' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)");
+};
+
+if (!Object.getOwnPropertyDescriptor(Module, "state")) Module["state"] = function() {
+ abort("'state' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)");
 };
 
 if (!Object.getOwnPropertyDescriptor(Module, "emscriptenWebGLGetIndexed")) Module["emscriptenWebGLGetIndexed"] = function() {
