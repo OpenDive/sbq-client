@@ -1,5 +1,8 @@
 import 'dotenv/config'
-import express from 'express';
+import express, { response } from 'express';
+// const axios = require('axios');
+import axios from 'axios';
+
 
 import { getFullnodeUrl, SuiClient } from '@mysten/sui.js/client';
 import { KioskClient, Network } from '@mysten/kiosk';
@@ -22,7 +25,7 @@ function chunkArray(a,s){ // a: array to chunk, s: size of chunks
 const app = express();
 
 
-// localhost:8280/api/?address=0x6045d15865d74a53dc42e481280190aec7d06463f40088acf49ea4585acc29e2
+// localhost:8280/api/getSuiFrens?address=0x6045d15865d74a53dc42e481280190aec7d06463f40088acf49ea4585acc29e2
 app.get("/api/getSuiFrens", async (req, res) => {
     const address = req.query.address
     // res.json({ address: address });
@@ -104,7 +107,31 @@ app.get("/api/getSuiFrens", async (req, res) => {
         // size: frens.length
     });
 });
-  
+
+// /svgToPng/?uri=https://api-mainnet.suifrens.sui.io/suifrens/0x2da1f060245a434b5d65647b57e7b8099301d5e3505cbd50268f14fbef6d2cb7/svg
+app.get("/api/svgToPng/", async (req, res) => {
+    console.log("URI >>>>>")
+    const uri = req.query.uri;
+    console.log(uri);
+    const base64SVG = await axios.get(uri, {
+        // responseType: 'arraybuffer'
+        responseType: 'text/plain'
+    })
+    .then(response => {
+        console.log(response.data);
+        // const b64 = Buffer.from(response.data, 'binary').toString('base64');
+        const b64 = Buffer.from(response.data, 'utf-8').toString('base64');
+        console.log(b64);
+        res.json({
+            b64: b64
+        })
+    })
+    .catch(error => {
+        console.log("ERROR fetching SVG and base64 -- " + error);
+    })
+
+});
+
 app.get("/api/hello", (req, res) => {
     res.json({ hello: "world" });
 });
